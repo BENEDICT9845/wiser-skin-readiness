@@ -61,6 +61,7 @@ docker run --rm wiser-backend-test
 ## Pilot Documentation
 
 - [Deployment guide](docs/DEPLOYMENT.md)
+- [Client API and testing guide](docs/API_TESTING_GUIDE.md)
 - [Qualified reviewer guide](docs/REVIEWER_GUIDE.md)
 - [Pilot operations](docs/OPERATIONS.md)
 - [Rule scope and sources](docs/RULE_SCOPE.md)

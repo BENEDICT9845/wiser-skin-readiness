@@ -29,6 +29,11 @@ POST /v2/readiness/evaluate
 The `/v1` endpoints preserve the original prototype and are not intended for
 qualified rule validation.
 
+Copy-paste pilot samples:
+
+- `sample_requests/texas-dfu-ready-v2.json`
+- `sample_requests/texas-dfu-test-catalog.json`
+
 ## Verify
 
 ```powershell

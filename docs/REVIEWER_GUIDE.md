@@ -43,6 +43,9 @@ review.
 
 ## How To Test
 
+For the complete endpoint and input-field reference, see
+`API_TESTING_GUIDE.md`.
+
 1. Open the shared deployment URL. It redirects to `/docs`.
 2. Open `POST /v2/readiness/evaluate`.
 3. Select **Try it out**.

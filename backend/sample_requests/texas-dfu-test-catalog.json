@@ -1,0 +1,172 @@
+{
+  "base_request_file": "texas-dfu-ready-v2.json",
+  "instructions": "Start with the base request and apply each scenario's changes using the dot-separated field paths.",
+  "scenarios": [
+    {
+      "id": "READY",
+      "title": "Complete initial pre-authorization case",
+      "changes": {},
+      "expected_status": "READY_FOR_QUALIFIED_REVIEW",
+      "expected_finding": null
+    },
+    {
+      "id": "MISSING_MEASUREMENT",
+      "title": "Four-week measurement not confirmed",
+      "changes": {
+        "texas_episode_evidence.four_week_measurement_documented": false
+      },
+      "expected_status": "READY_WITH_REVIEW",
+      "expected_finding": "L35041_DFU_MEASUREMENT_TIMELINE"
+    },
+    {
+      "id": "SHORT_STANDARD_CARE",
+      "title": "Only 21 days of conservative care",
+      "changes": {
+        "standard_care.care_duration_days": 21
+      },
+      "expected_status": "NEEDS_DOCUMENTATION",
+      "expected_finding": "L35041_DFU_CONSERVATIVE_CARE"
+    },
+    {
+      "id": "ACTIVE_INFECTION",
+      "title": "Active infection confirmed",
+      "changes": {
+        "infection_evidence.active_infection": true
+      },
+      "expected_status": "NEEDS_DOCUMENTATION",
+      "expected_finding": "L35041_DFU_INFECTION_AND_OSTEOMYELITIS"
+    },
+    {
+      "id": "LOW_CIRCULATION",
+      "title": "ABI and toe pressure below encoded thresholds",
+      "changes": {
+        "vascular_evidence.abi_value": 0.5,
+        "vascular_evidence.toe_pressure_mmhg": 20
+      },
+      "expected_status": "NEEDS_DOCUMENTATION",
+      "expected_finding": "L35041_DFU_CIRCULATION"
+    },
+    {
+      "id": "INCOMPLETE_PACKET",
+      "title": "Selected product documentation missing",
+      "changes": {
+        "texas_episode_evidence.selected_product_documented": false
+      },
+      "expected_status": "READY_WITH_REVIEW",
+      "expected_finding": "L35041_DFU_PRE_SERVICE_PACKET"
+    },
+    {
+      "id": "APPLICATION_CAP",
+      "title": "Ten completed applications before planned service",
+      "changes": {
+        "episode_history.applications_so_far_in_episode": 10
+      },
+      "expected_status": "NEEDS_DOCUMENTATION",
+      "expected_finding": "L35041_DFU_APPLICATION_AND_WINDOW_LIMIT"
+    },
+    {
+      "id": "OUTSIDE_12_WEEK_WINDOW",
+      "title": "Planned service is outside the encoded 12-week window",
+      "changes": {
+        "episode_history.ctp_episode_start_date": "2026-01-01"
+      },
+      "expected_status": "NEEDS_DOCUMENTATION",
+      "expected_finding": "L35041_DFU_APPLICATION_AND_WINDOW_LIMIT"
+    },
+    {
+      "id": "SIMULTANEOUS_PRODUCTS",
+      "title": "Concurrent products confirmed",
+      "changes": {
+        "episode_history.concurrent_products_in_episode": true
+      },
+      "expected_status": "NEEDS_DOCUMENTATION",
+      "expected_finding": "L35041_DFU_SIMULTANEOUS_PRODUCTS"
+    },
+    {
+      "id": "FAILED_PRIOR_COURSE",
+      "title": "Unsuccessful same-wound course within one year",
+      "changes": {
+        "episode_history.same_wound_as_prior_course": true,
+        "episode_history.last_completed_ctp_course_end_date": "2025-12-01",
+        "episode_history.last_completed_ctp_course_outcome": "FAILED_NO_IMPROVEMENT"
+      },
+      "expected_status": "NEEDS_DOCUMENTATION",
+      "expected_finding": "L35041_DFU_ONE_YEAR_SAME_WOUND_RETREATMENT"
+    },
+    {
+      "id": "HEALED_WOUND_RETREATMENT",
+      "title": "Same-wound history meets encoded healed-ulcer definition",
+      "changes": {
+        "episode_history.same_wound_as_prior_course": true,
+        "episode_history.last_completed_ctp_course_outcome": "HEALED",
+        "episode_history.prior_healed_size_reduction_pct": 80,
+        "episode_history.prior_healed_size_cm_sq": 0.4
+      },
+      "expected_status": "NEEDS_DOCUMENTATION",
+      "expected_finding": "L35041_DFU_HEALED_WOUND_RETREATMENT"
+    },
+    {
+      "id": "SUBSEQUENT_APPLICATION_MISSING_DOCS",
+      "title": "Subsequent application without post-application evidence",
+      "changes": {
+        "review_stage": "SUBSEQUENT_APPLICATION"
+      },
+      "expected_status": "READY_WITH_REVIEW",
+      "expected_finding": "L35041_DFU_POST_APPLICATION_DOCUMENTATION"
+    },
+    {
+      "id": "CODE_SCOPE_UNCONFIRMED",
+      "title": "Current code scope is not confirmed",
+      "changes": {
+        "texas_episode_evidence.code_scope_confirmed": false
+      },
+      "expected_status": "REQUIRES_HUMAN_REVIEW",
+      "expected_finding": "L35041_TX_CODE_SCOPE_CONFIRMATION"
+    },
+    {
+      "id": "VLU_OUTSIDE_FIRST_SLICE",
+      "title": "Texas VLU outside DFU first slice",
+      "changes": {
+        "wound_type": "VLU"
+      },
+      "expected_status": "REQUIRES_HUMAN_REVIEW",
+      "expected_finding": "L35041_TX_DFU_FIRST_SLICE_SCOPE"
+    },
+    {
+      "id": "UNSUPPORTED_SITE",
+      "title": "Inpatient site outside first-slice site support",
+      "changes": {
+        "site_of_service": "INPATIENT"
+      },
+      "expected_status": "REQUIRES_HUMAN_REVIEW",
+      "expected_finding": "WISER_APPLICABILITY_SITE_OF_SERVICE"
+    },
+    {
+      "id": "MEDICARE_ADVANTAGE",
+      "title": "Medicare Advantage outside WISeR",
+      "changes": {
+        "coverage_type": "MEDICARE_ADVANTAGE"
+      },
+      "expected_status": "OUTSIDE_WISER_COVERAGE_SCOPE",
+      "expected_finding": "WISER_APPLICABILITY_ORIGINAL_MEDICARE"
+    },
+    {
+      "id": "BEFORE_SERVICE_WINDOW",
+      "title": "Service before WISeR applicability date",
+      "changes": {
+        "service_date": "2026-01-10"
+      },
+      "expected_status": "BEFORE_WISER_SERVICE_WINDOW",
+      "expected_finding": null
+    },
+    {
+      "id": "AFTER_MODEL_PERIOD",
+      "title": "Service after published WISeR model period",
+      "changes": {
+        "service_date": "2032-01-01"
+      },
+      "expected_status": "OUTSIDE_WISER_MODEL_PERIOD",
+      "expected_finding": null
+    }
+  ]
+}
