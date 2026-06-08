@@ -1,0 +1,80 @@
+{
+  "golden_case_id": "GC-01",
+  "title": "DFU, fully compliant, ready",
+  "summary": "Diabetic foot ulcer in Ohio with all L36690 documentation present.",
+  "rule_pack_id": "cms-wiser-skin-l36690-v0.1",
+  "review_status": "draft",
+  "reviewer": null,
+  "review_date": null,
+  "source_claim_ids": ["CLM-022", "CLM-035", "CLM-038", "CLM-039", "CLM-042", "CLM-043"],
+  "match_policy": "strict_top_level_subset_findings",
+  "request": {
+    "case_reference": "GC-01",
+    "state": "OH",
+    "coverage_type": "ORIGINAL_MEDICARE",
+    "service_date": "2026-06-01",
+    "wound_type": "DFU",
+    "procedure_codes": ["15271"],
+    "product_codes": ["Q4101"],
+    "diagnosis_codes": ["E11.621", "L97.522"],
+    "wound_bed": {
+      "wound_size_cm_sq": 2.4,
+      "wound_thickness": "FULL",
+      "tendon_muscle_joint_bone_or_sinus_tract": false,
+      "bed_clean_and_granular": true,
+      "necrotic_debris_or_exudate_present": false
+    },
+    "vascular_evidence": {
+      "abi_value": 0.85,
+      "toe_pressure_mmhg": null,
+      "assessment_documented": true
+    },
+    "infection_evidence": {
+      "active_infection": false,
+      "assessment_documented": true,
+      "treatment_history_documented": true,
+      "osteomyelitis_present": false
+    },
+    "contraindications": {
+      "uncontrolled_diabetes": false,
+      "active_charcot_arthropathy": false,
+      "vasculitis": false,
+      "ctp_component_hypersensitivity": false,
+      "continued_exposure_to_causative_factors": false
+    },
+    "standard_care": {
+      "care_duration_days": 35,
+      "care_failed_or_unresponsive": true,
+      "adherence_documented": true,
+      "offloading_documented": true,
+      "diabetes_diagnosis_documented": true,
+      "diabetes_management_documented": true
+    },
+    "episode_history": {
+      "episode_start_date": "2026-04-20",
+      "applications_so_far_in_episode": 0,
+      "products_used_in_episode": [],
+      "concurrent_products_in_episode": false,
+      "last_completed_ctp_course_end_date": null
+    }
+  },
+  "expected": {
+    "applicability": {
+      "status": "LIKELY_ACTIVE_WISER_WORKFLOW",
+      "state": "OH",
+      "jurisdiction": "J15",
+      "mac": "CGS",
+      "participant": "Innovaccer"
+    },
+    "readiness_status": "READY_FOR_QUALIFIED_REVIEW",
+    "findings_must_include": [],
+    "findings_must_not_include": [
+      "L36690_DFU_CONSERVATIVE_CARE_DURATION",
+      "L36690_WOUND_SIZE_MINIMUM",
+      "L36690_CIRCULATION_ABI_OR_TOE_PRESSURE",
+      "L36690_DFU_OFFLOADING_REQUIRED",
+      "L36690_APPLICATION_CAP",
+      "L36690_CONTRAINDICATION_ACTIVE_INFECTION"
+    ]
+  }
+}

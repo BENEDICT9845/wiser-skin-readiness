@@ -1,0 +1,81 @@
+{
+  "golden_case_id": "TX-DFU-01",
+  "title": "Texas DFU initial pre-auth ready",
+  "review_status": "draft",
+  "rule_pack_id": "cms-wiser-skin-l35041-tx-dfu-v0.1",
+  "source_claim_ids": ["CLM-049", "CLM-050", "CLM-052", "CLM-053", "CLM-055", "CLM-056", "CLM-057"],
+  "match_policy": "strict_top_level_subset_findings",
+  "request": {
+    "case_reference": "TX-DFU-01",
+    "state": "TX",
+    "coverage_type": "ORIGINAL_MEDICARE",
+    "service_date": "2026-06-01",
+    "wound_type": "DFU",
+    "review_stage": "INITIAL_PRE_AUTH",
+    "site_of_service": "OFFICE",
+    "procedure_codes": ["15271"],
+    "product_codes": ["Q4101"],
+    "diagnosis_codes": ["E11.621"],
+    "wound_bed": {
+      "wound_size_cm_sq": 2.4,
+      "wound_thickness": "FULL",
+      "tendon_muscle_joint_bone_or_sinus_tract": false,
+      "bed_clean_and_granular": true,
+      "necrotic_debris_or_exudate_present": false
+    },
+    "vascular_evidence": {"abi_value": 0.85},
+    "infection_evidence": {"active_infection": false, "osteomyelitis_present": false},
+    "contraindications": {
+      "uncontrolled_diabetes": false,
+      "active_charcot_arthropathy": false,
+      "vasculitis": false,
+      "ctp_component_hypersensitivity": false,
+      "continued_exposure_to_causative_factors": false
+    },
+    "standard_care": {
+      "care_duration_days": 35,
+      "care_failed_or_unresponsive": true,
+      "adherence_documented": true,
+      "offloading_documented": true,
+      "diabetes_diagnosis_documented": true,
+      "diabetes_management_documented": true
+    },
+    "episode_history": {
+      "episode_start_date": "2026-04-20",
+      "ctp_episode_start_date": "2026-06-01",
+      "applications_so_far_in_episode": 0,
+      "concurrent_products_in_episode": false,
+      "same_wound_as_prior_course": false
+    },
+    "texas_episode_evidence": {
+      "code_scope_confirmed": true,
+      "baseline_measurement_documented": true,
+      "four_week_measurement_documented": true,
+      "pre_placement_measurement_documented": true,
+      "response_documented_within_30_days": true,
+      "comprehensive_treatment_plan_documented": true,
+      "failed_interventions_documented": true,
+      "updated_medication_history_documented": true,
+      "pertinent_medical_problem_review_documented": true,
+      "planned_procedure_documented": true,
+      "selected_product_documented": true,
+      "risks_complications_documented": true
+    }
+  },
+  "expected": {
+    "applicability": {
+      "status": "LIKELY_ACTIVE_WISER_WORKFLOW",
+      "state": "TX",
+      "jurisdiction": "JH",
+      "mac": "Novitas",
+      "participant": "Cohere Health"
+    },
+    "readiness_status": "READY_FOR_QUALIFIED_REVIEW",
+    "findings_must_include": [],
+    "findings_must_not_include": [
+      "L35041_DFU_MEASUREMENT_TIMELINE",
+      "L35041_DFU_PRE_SERVICE_PACKET",
+      "L35041_DFU_APPLICATION_AND_WINDOW_LIMIT"
+    ]
+  }
+}

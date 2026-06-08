@@ -1,0 +1,523 @@
+{
+  "id": "cms-wiser-skin-l35041-tx-dfu-v0.1",
+  "label": "WISeR skin readiness - L35041 Texas DFU first slice",
+  "version": "0.1.0",
+  "status": "DRAFT",
+  "guide_version": "6.0",
+  "guide_updated": "2026-04-24",
+  "effective_date_range": {
+    "starts_on": "2026-01-15",
+    "ends_on": "2031-12-31"
+  },
+  "scope": {
+    "states": ["TX"],
+    "macs": ["JH"],
+    "coverage_types": ["ORIGINAL_MEDICARE"],
+    "wound_types": ["DFU", "NEUROPATHIC"],
+    "service_categories": ["WISeR_A13_SKIN_SUBSTITUTES"]
+  },
+  "sources": {
+    "CMS_WISER_OPERATIONAL_GUIDE_V6": {
+      "kind": "OFFICIAL_CMS_GUIDANCE",
+      "title": "CMS WISeR Provider and Supplier Operational Guide v6.0",
+      "url": "https://www.cms.gov/priorities/innovation/files/wiser-provider-supplier-guide.pdf",
+      "version": "6.0",
+      "published_or_updated": "2026-04-24"
+    },
+    "CMS_WISER_FAQ": {
+      "kind": "OFFICIAL_CMS_GUIDANCE",
+      "title": "CMS WISeR Model Frequently Asked Questions",
+      "url": "https://www.cms.gov/priorities/innovation/files/document/wiser-model-frequently-asked-questions",
+      "published_or_updated": "2026-01-13"
+    },
+    "CMS_MCD_L35041": {
+      "kind": "OFFICIAL_LCD",
+      "title": "Application of Bioengineered Skin Substitutes to Lower Extremity Chronic Non-Healing Wounds (L35041)",
+      "url": "https://www.cms.gov/medicare-coverage-database/view/lcd.aspx?lcdid=35041",
+      "version": "113",
+      "published_or_updated": "2019-09-26"
+    },
+    "CMS_MCD_A54117": {
+      "kind": "OFFICIAL_LCD_ARTICLE",
+      "title": "Billing and Coding: Application of Bioengineered Skin Substitutes to Lower Extremity Chronic Non-Healing Wounds (A54117)",
+      "url": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=54117",
+      "version": "88",
+      "published_or_updated": "2026-01-01",
+      "license_note": "Gated code content is referenced by ID and version only"
+    },
+    "INTERNAL_FORMAT_CHECK": {
+      "kind": "INTERNAL_VALIDATION",
+      "title": "Format and consistency checks"
+    }
+  },
+  "field_state_policy": {
+    "infection_evidence.active_infection": "boolean",
+    "standard_care.care_failed_or_unresponsive": "boolean",
+    "texas_episode_evidence.code_scope_confirmed": "boolean"
+  },
+  "applicability_rules": [
+    {
+      "rule_id": "WISER_APPLICABILITY_ORIGINAL_MEDICARE",
+      "kind": "applicability",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "coverage_type", "equals": "ORIGINAL_MEDICARE"}]},
+      "if_fails_status": "OUTSIDE_WISER_COVERAGE_SCOPE",
+      "message_template": "WISeR applies to Original Medicare fee-for-service cases. Coverage type submitted: {coverage_type}.",
+      "rationale_template": "WISeR does not apply to Medicare Advantage.",
+      "source_id": "CMS_WISER_OPERATIONAL_GUIDE_V6",
+      "source_section": "Model scope",
+      "claim_id": "CLM-019",
+      "next_action": "Follow the payer-specific workflow.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "WISER_APPLICABILITY_SERVICE_DATE",
+      "kind": "applicability",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "service_date", "gte": "2026-01-15"}]},
+      "if_fails_status": "BEFORE_WISER_SERVICE_WINDOW",
+      "message_template": "WISeR applies to services rendered on or after 2026-01-15. Service date submitted: {service_date}.",
+      "rationale_template": "CMS states that services rendered on or after 2026-01-15 became subject to WISeR.",
+      "source_id": "CMS_WISER_FAQ",
+      "source_section": "FAQ 6",
+      "claim_id": "CLM-049",
+      "next_action": "Use the standard Medicare workflow for this date.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L35041_TX_REVIEW_STAGE_REQUIRED",
+      "kind": "applicability",
+      "classification": "INTERNAL_VALIDATION",
+      "severity": "INFORMATIONAL",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "review_stage", "exists": true}]},
+      "if_fails_status": "REQUIRES_HUMAN_REVIEW",
+      "message_template": "A review stage is required so stage-specific L35041 documentation checks can be applied.",
+      "rationale_template": "Internal safety check; post-application documentation must not be required during an initial pre-authorization review.",
+      "source_id": "INTERNAL_FORMAT_CHECK",
+      "source_section": "Texas first-slice contract",
+      "next_action": "Provide INITIAL_PRE_AUTH, SUBSEQUENT_APPLICATION, or CLAIM_PREPAYMENT_REVIEW.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "WISER_APPLICABILITY_SITE_OF_SERVICE",
+      "kind": "applicability",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "site_of_service", "in": ["OFFICE", "HOME", "HOSPITAL_OPD", "ASC"]}]},
+      "if_fails_status": "REQUIRES_HUMAN_REVIEW",
+      "message_template": "The submitted or missing site of service cannot be evaluated by this Texas first slice. Site submitted: {site_of_service}.",
+      "rationale_template": "WISeR excludes inpatient-only and emergency services; this first slice abstains when site is unsupported or unknown.",
+      "source_id": "CMS_WISER_OPERATIONAL_GUIDE_V6",
+      "source_section": "Model exclusions",
+      "claim_id": "CLM-031",
+      "next_action": "Confirm the site of service before readiness evaluation.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L35041_TX_DFU_FIRST_SLICE_SCOPE",
+      "kind": "applicability",
+      "classification": "INTERNAL_VALIDATION",
+      "severity": "INFORMATIONAL",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "wound_type", "in": ["DFU", "NEUROPATHIC"]}]},
+      "if_fails_status": "REQUIRES_HUMAN_REVIEW",
+      "message_template": "This first Texas pack evaluates DFU and neuropathic DFU only. Wound type submitted: {wound_type}.",
+      "rationale_template": "Internal product boundary; L35041 contains additional wound paths that remain outside this first verified slice.",
+      "source_id": "INTERNAL_FORMAT_CHECK",
+      "source_section": "Texas first-slice contract",
+      "next_action": "Route non-DFU cases to a qualified reviewer.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L35041_TX_CODE_SCOPE_CONFIRMATION",
+      "kind": "applicability",
+      "classification": "INTERNAL_VALIDATION",
+      "severity": "INFORMATIONAL",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "texas_episode_evidence.code_scope_confirmed", "equals": true}]},
+      "if_fails_status": "REQUIRES_HUMAN_REVIEW",
+      "message_template": "Current WISeR and L35041/A54117 code scope has not been confirmed for this case.",
+      "rationale_template": "The first pack must abstain when current code-list membership is unknown.",
+      "source_id": "CMS_MCD_A54117",
+      "source_section": "Coding Information",
+      "claim_id": "CLM-048",
+      "next_action": "Confirm code scope using the current WISeR guide and licensed coding source.",
+      "unknown_is_fail": true
+    }
+  ],
+  "evidence_rules": [
+    {
+      "rule_id": "L35041_DFU_MEASUREMENT_TIMELINE",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "REVIEW",
+      "scope": {"always": true},
+      "condition": {"all": [
+        {"field": "texas_episode_evidence.baseline_measurement_documented", "equals": true},
+        {"field": "texas_episode_evidence.four_week_measurement_documented", "equals": true},
+        {"field": "texas_episode_evidence.pre_placement_measurement_documented", "equals": true},
+        {"field": "texas_episode_evidence.response_documented_within_30_days", "equals": true}
+      ]},
+      "if_fails_status": "READY_WITH_REVIEW",
+      "message_template": "One or more L35041 measurement timeline points are not confirmed.",
+      "rationale_template": "L35041 expects measurements across the episode and response documentation at least every 30 days.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Coverage Guidance",
+      "claim_id": "CLM-050",
+      "next_action": "Confirm baseline, four-week, pre-placement, and recent response evidence.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_PRE_SERVICE_PACKET",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "REVIEW",
+      "scope": {"always": true},
+      "condition": {"all": [
+        {"field": "texas_episode_evidence.comprehensive_treatment_plan_documented", "equals": true},
+        {"field": "texas_episode_evidence.failed_interventions_documented", "equals": true},
+        {"field": "texas_episode_evidence.updated_medication_history_documented", "equals": true},
+        {"field": "texas_episode_evidence.pertinent_medical_problem_review_documented", "equals": true},
+        {"field": "texas_episode_evidence.planned_procedure_documented", "equals": true},
+        {"field": "texas_episode_evidence.selected_product_documented", "equals": true},
+        {"field": "texas_episode_evidence.risks_complications_documented", "equals": true}
+      ]},
+      "if_fails_status": "READY_WITH_REVIEW",
+      "message_template": "One or more L35041 pre-service packet elements are not confirmed.",
+      "rationale_template": "L35041 expects a comprehensive plan and pre-service explanation of failed care and planned treatment.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Covered Indications",
+      "claim_id": "CLM-056",
+      "next_action": "Complete or confirm the flagged pre-service packet elements.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_CONSERVATIVE_CARE",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [
+        {"field": "standard_care.care_duration_days", "gt": 28},
+        {"field": "standard_care.care_failed_or_unresponsive", "equals": true},
+        {"field": "standard_care.adherence_documented", "equals": true}
+      ]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L35041 DFU criteria require more than four weeks of documented conservative care, failed response, and compliance.",
+      "rationale_template": "L35041 Covered Indications define the DFU conservative-care requirement.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Covered Indications",
+      "claim_id": "CLM-053",
+      "next_action": "Confirm duration, failed response, and adherence evidence.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_WOUND_BED_CONDITIONS",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [
+        {"field": "wound_bed.wound_thickness", "in": ["PARTIAL", "FULL"]},
+        {"field": "wound_bed.tendon_muscle_joint_bone_or_sinus_tract", "equals": false},
+        {"field": "wound_bed.bed_clean_and_granular", "equals": true},
+        {"field": "wound_bed.necrotic_debris_or_exudate_present", "equals": false}
+      ]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "One or more L35041 wound-bed conditions are not confirmed.",
+      "rationale_template": "L35041 Covered Indications describe wound thickness, wound-bed, debris, and deep-structure conditions.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Covered Indications",
+      "claim_id": "CLM-052",
+      "next_action": "Confirm wound-bed and deep-structure findings before review.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_WOUND_SIZE",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "wound_bed.wound_size_cm_sq", "gte": 1.0}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L35041 requires a skin deficit of at least 1.0 square centimeter. Documented size: {wound_bed.wound_size_cm_sq}.",
+      "rationale_template": "L35041 Covered Indications include the minimum wound-size threshold.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Covered Indications",
+      "claim_id": "CLM-052",
+      "next_action": "Confirm the current wound-size measurement.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_CIRCULATION",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"any": [
+        {"field": "vascular_evidence.abi_value", "gte": 0.60},
+        {"field": "vascular_evidence.toe_pressure_mmhg", "gt": 30}
+      ]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L35041 expects adequate circulation, such as ABI no less than 0.60 or toe pressure greater than 30 mmHg.",
+      "rationale_template": "L35041 Covered Indications identify circulation examples.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Covered Indications",
+      "claim_id": "CLM-052",
+      "next_action": "Confirm qualifying circulation evidence.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_DIABETES_AND_OFFLOADING",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [
+        {"field": "standard_care.diabetes_diagnosis_documented", "equals": true},
+        {"field": "standard_care.diabetes_management_documented", "equals": true},
+        {"field": "standard_care.offloading_documented", "equals": true}
+      ]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L35041 DFU readiness requires diabetes diagnosis/management and offloading evidence.",
+      "rationale_template": "L35041 Covered Indications and appropriate therapy identify these DFU requirements.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Covered Indications",
+      "claim_id": "CLM-053",
+      "next_action": "Confirm diabetes management and offloading documentation.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_INFECTION_AND_OSTEOMYELITIS",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [
+        {"field": "infection_evidence.active_infection", "equals": false},
+        {"field": "infection_evidence.osteomyelitis_present", "equals": false}
+      ]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L35041 expects the ulcer to be free of active infection and underlying osteomyelitis before therapy.",
+      "rationale_template": "L35041 Covered Indications require treated conditions to be resolved.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Covered Indications",
+      "claim_id": "CLM-055",
+      "next_action": "Resolve or clarify infection and osteomyelitis status.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_OTHER_CONTRAINDICATIONS",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [
+        {"field": "contraindications.uncontrolled_diabetes", "equals": false},
+        {"field": "contraindications.active_charcot_arthropathy", "equals": false},
+        {"field": "contraindications.vasculitis", "equals": false},
+        {"field": "contraindications.ctp_component_hypersensitivity", "equals": false},
+        {"field": "contraindications.continued_exposure_to_causative_factors", "equals": false}
+      ]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "One or more L35041 contraindicating or exacerbating factors are not controlled.",
+      "rationale_template": "L35041 Limitations identify uncontrolled conditions and component hypersensitivity.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Limitations",
+      "claim_id": "CLM-059",
+      "next_action": "Confirm the identified factor is controlled or route for qualified review.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_CURRENT_SMOKING_COUNSELING",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "REVIEW",
+      "scope": {"all": [{"field": "tobacco_use.smoking_status", "equals": "CURRENT"}]},
+      "condition": {"all": [{"field": "texas_episode_evidence.smoking_counseling_documented", "equals": true}]},
+      "if_fails_status": "READY_WITH_REVIEW",
+      "message_template": "Smoking-cessation counseling is not confirmed for a current smoker.",
+      "rationale_template": "L35041 expects physician efforts to support smoking cessation when applicable.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Covered Indications and Limitations",
+      "claim_id": "CLM-056",
+      "next_action": "Confirm applicable smoking-cessation counseling documentation.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_APPLICATION_AND_WINDOW_LIMIT",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [
+        {"field": "episode_history.applications_so_far_in_episode", "lt": 10},
+        {"days_between_lte": {
+          "start_field": "episode_history.ctp_episode_start_date",
+          "end_field": "service_date",
+          "days": 84
+        }}
+      ]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L35041 limits the wound episode to 10 applications and 12 weeks.",
+      "rationale_template": "L35041 Limitations and Utilization Guidelines define the application and episode limits.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Limitations and Utilization Guidelines",
+      "claim_id": "CLM-057",
+      "next_action": "Confirm the application count and episode dates before review.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_SIMULTANEOUS_PRODUCTS",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "episode_history.concurrent_products_in_episode", "equals": false}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L35041 does not cover simultaneous products for the wound episode.",
+      "rationale_template": "L35041 Limitations prohibit simultaneous products.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Limitations",
+      "claim_id": "CLM-057",
+      "next_action": "Confirm that only one product is used at a time.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_ONE_YEAR_SAME_WOUND_RETREATMENT",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"all": [
+        {"field": "episode_history.same_wound_as_prior_course", "equals": true},
+        {"field": "episode_history.last_completed_ctp_course_outcome", "in": ["FAILED_NO_IMPROVEMENT", "FAILED_WORSENING"]}
+      ]},
+      "condition": {"days_between_gte": {
+        "start_field": "episode_history.last_completed_ctp_course_end_date",
+        "end_field": "service_date",
+        "days": 365
+      }},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "The same wound had an unsuccessful prior CTP course within one year.",
+      "rationale_template": "L35041 excludes repeat treatment when a previous full course was unsuccessful within one year.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Limitations",
+      "claim_id": "CLM-058",
+      "next_action": "Confirm same-wound identity and prior-course dates.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_PRIOR_COURSE_OUTCOME_REQUIRED",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "REVIEW",
+      "scope": {"all": [{"field": "episode_history.same_wound_as_prior_course", "equals": true}]},
+      "condition": {"all": [{"field": "episode_history.last_completed_ctp_course_outcome", "in": ["HEALED", "FAILED_NO_IMPROVEMENT", "FAILED_WORSENING", "DISCONTINUED_OTHER"]}]},
+      "if_fails_status": "READY_WITH_REVIEW",
+      "message_template": "The outcome of the prior CTP course for this same wound is not confirmed.",
+      "rationale_template": "The prior-course outcome is needed to apply L35041 retreatment limitations safely.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Limitations",
+      "claim_id": "CLM-058",
+      "next_action": "Confirm the prior full-course outcome before qualified review.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_HEALED_WOUND_RETREATMENT",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"all": [
+        {"field": "episode_history.same_wound_as_prior_course", "equals": true},
+        {"field": "episode_history.last_completed_ctp_course_outcome", "equals": "HEALED"},
+        {"field": "episode_history.prior_healed_size_reduction_pct", "exists": true},
+        {"field": "episode_history.prior_healed_size_cm_sq", "exists": true}
+      ]},
+      "condition": {"not": {"all": [
+        {"field": "episode_history.prior_healed_size_reduction_pct", "gt": 75},
+        {"field": "episode_history.prior_healed_size_cm_sq", "lt": 0.5}
+      ]}},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "The submitted same-wound history meets the L35041 healed-ulcer retreatment definition.",
+      "rationale_template": "L35041 excludes retreatment of healed ulcers showing greater than 75% size reduction and smaller than 0.5 square centimeter.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Limitations",
+      "claim_id": "CLM-058",
+      "next_action": "Route the healed-wound retreatment scenario to the qualified reviewer.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L35041_DFU_POST_APPLICATION_DOCUMENTATION",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "REVIEW",
+      "scope": {"all": [{"field": "review_stage", "in": ["SUBSEQUENT_APPLICATION", "CLAIM_PREPAYMENT_REVIEW"]}]},
+      "condition": {"all": [
+        {"field": "texas_episode_evidence.pre_treatment_wound_description_documented", "equals": true},
+        {"field": "texas_episode_evidence.post_treatment_wound_description_documented", "equals": true},
+        {"field": "texas_episode_evidence.subsequent_placement_measurements_documented", "equals": true},
+        {"field": "texas_episode_evidence.wastage_documented", "equals": true},
+        {"field": "texas_episode_evidence.continuation_rationale_documented", "equals": true}
+      ]},
+      "if_fails_status": "READY_WITH_REVIEW",
+      "message_template": "Stage-applicable pre/post wound description, wastage, measurement, or continuation documentation is not confirmed.",
+      "rationale_template": "L35041 Documentation Requirements identify these procedure-note elements.",
+      "source_id": "CMS_MCD_L35041",
+      "source_section": "Documentation Requirements",
+      "claim_id": "CLM-060",
+      "next_action": "Complete or confirm the post-application documentation.",
+      "unknown_is_fail": false
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "HCPCS_Q_CODE_FORMAT",
+      "kind": "validation",
+      "classification": "INTERNAL_VALIDATION",
+      "severity": "INFORMATIONAL",
+      "scope": {"always": true},
+      "condition": {"for_each": "product_codes", "matches": "^[A-Z][0-9]{4}$"},
+      "message_template": "One or more product codes do not match the HCPCS Level II format.",
+      "rationale_template": "Format check; not a coverage rule.",
+      "source_id": "INTERNAL_FORMAT_CHECK",
+      "next_action": "Review the submitted product codes."
+    },
+    {
+      "rule_id": "CTP_EPISODE_DATE_ORDER",
+      "kind": "validation",
+      "classification": "INTERNAL_VALIDATION",
+      "severity": "INFORMATIONAL",
+      "scope": {"all": [
+        {"field": "episode_history.ctp_episode_start_date", "exists": true},
+        {"field": "service_date", "exists": true}
+      ]},
+      "condition": {"days_between_gte": {
+        "start_field": "episode_history.ctp_episode_start_date",
+        "end_field": "service_date",
+        "days": 0
+      }},
+      "message_template": "The CTP episode start date occurs after the service date.",
+      "rationale_template": "Internal temporal consistency check; reversed dates must not satisfy treatment-window rules.",
+      "source_id": "INTERNAL_FORMAT_CHECK",
+      "next_action": "Correct the CTP episode start date or service date.",
+      "unknown_is_fail": true
+    }
+  ],
+  "scoring": {
+    "score_basis": "ENTERED_EVIDENCE_COMPLETENESS"
+  },
+  "changelog": [
+    {
+      "rule_id": "*",
+      "kind": "ADDED",
+      "version_introduced": "0.1.0",
+      "note": "Initial Texas DFU draft slice from CLM-048 through CLM-060."
+    }
+  ]
+}

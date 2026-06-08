@@ -1,0 +1,26 @@
+{
+  "golden_case_id": "GC-12",
+  "title": "Out of WISeR pilot region",
+  "summary": "DFU in California — not a WISeR pilot state.",
+  "rule_pack_id": "cms-wiser-skin-l36690-v0.1",
+  "review_status": "draft",
+  "source_claim_ids": ["CLM-018"],
+  "match_policy": "applicability_only",
+  "request": {
+    "case_reference": "GC-12",
+    "state": "CA",
+    "coverage_type": "ORIGINAL_MEDICARE",
+    "service_date": "2026-06-01",
+    "wound_type": "DFU",
+    "procedure_codes": ["15271"],
+    "product_codes": ["Q4101"],
+    "diagnosis_codes": ["E11.621", "L97.522"]
+  },
+  "expected": {
+    "applicability": {
+      "status": "OUTSIDE_WISER_PILOT_REGION"
+    },
+    "readiness_status": "OUTSIDE_WISER_PILOT_REGION",
+    "findings_must_include": []
+  }
+}

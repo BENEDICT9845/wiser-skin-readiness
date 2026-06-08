@@ -1,0 +1,382 @@
+{
+  "id": "cms-wiser-skin-l36690-v0.1",
+  "label": "WISeR skin readiness — L36690 (CGS J15 / Ohio)",
+  "version": "0.1.0",
+  "status": "DRAFT",
+  "guide_version": "6.0",
+  "guide_updated": "2026-04-24",
+  "effective_date_range": {
+    "starts_on": "2026-01-29",
+    "ends_on": "2031-12-31"
+  },
+  "scope": {
+    "states": ["OH"],
+    "macs": ["J15"],
+    "coverage_types": ["ORIGINAL_MEDICARE"],
+    "wound_types": ["DFU", "NEUROPATHIC", "VSU", "VLU", "TRAUMA"],
+    "service_categories": ["WISeR_A13_SKIN_SUBSTITUTES"]
+  },
+  "sources": {
+    "CMS_WISER_OPERATIONAL_GUIDE_V6": {
+      "kind": "OFFICIAL_CMS_GUIDANCE",
+      "title": "CMS WISeR Provider and Supplier Operational Guide v6.0",
+      "url": "https://www.cms.gov/priorities/innovation/files/wiser-provider-supplier-guide.pdf",
+      "version": "6.0",
+      "published_or_updated": "2026-04-24"
+    },
+    "CMS_MCD_L36690": {
+      "kind": "OFFICIAL_LCD",
+      "title": "Wound Application of CTPs, Lower Extremities (L36690)",
+      "url": "https://www.cms.gov/medicare-coverage-database/view/lcd.aspx?lcdid=36690",
+      "version": "rev-2026-01-29",
+      "published_or_updated": "2026-01-29"
+    },
+    "CMS_MCD_A56696": {
+      "kind": "OFFICIAL_LCD_ARTICLE",
+      "title": "Billing and Coding: Wound Application of CTPs, Lower Extremities (A56696)",
+      "url": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=56696&ver=43",
+      "version": "43",
+      "license_note": "AMA-licensed CPT content; codes referenced by ID only per ADR-0006"
+    },
+    "INTERNAL_FORMAT_CHECK": {
+      "kind": "INTERNAL_VALIDATION",
+      "title": "Format and consistency checks"
+    },
+    "PILOT_CLINICAL_WORKFLOW": {
+      "kind": "PILOT_WORKFLOW_SIGNAL",
+      "title": "Wound-care workflow signals from research interviews",
+      "note": "Not represented as official rules"
+    }
+  },
+  "field_state_policy": {
+    "infection_evidence.active_infection": "boolean",
+    "vascular_evidence.assessment_documented": "boolean",
+    "standard_care.care_failed_or_unresponsive": "boolean"
+  },
+  "applicability_rules": [
+    {
+      "rule_id": "WISER_APPLICABILITY_ORIGINAL_MEDICARE",
+      "kind": "applicability",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "coverage_type", "equals": "ORIGINAL_MEDICARE"}]},
+      "if_fails_status": "OUTSIDE_WISER_COVERAGE_SCOPE",
+      "message_template": "WISeR readiness screening is limited to Original Medicare fee-for-service cases. Coverage type submitted: {coverage_type}.",
+      "rationale_template": "WISeR Model applies to Original Medicare only.",
+      "source_id": "CMS_WISER_OPERATIONAL_GUIDE_V6",
+      "source_section": "Section 1.5",
+      "claim_id": "CLM-019",
+      "next_action": "Follow the payer-specific workflow for this coverage type.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "WISER_APPLICABILITY_SERVICE_DATE",
+      "kind": "applicability",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "service_date", "gte": "2026-01-15"}]},
+      "if_fails_status": "BEFORE_WISER_SERVICE_WINDOW",
+      "message_template": "WISeR applies to services rendered on or after 2026-01-15. Service date submitted: {service_date}.",
+      "rationale_template": "CMS WISeR FAQ distinguishes the 2026-01-01 model start from the 2026-01-15 service applicability date.",
+      "source_id": "CMS_WISER_OPERATIONAL_GUIDE_V6",
+      "source_section": "Section 1.4",
+      "claim_id": "CLM-049",
+      "next_action": "Use the standard Medicare workflow for this date.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "WISER_APPLICABILITY_PILOT_STATE",
+      "kind": "applicability",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "state", "in": ["AZ", "NJ", "OH", "OK", "TX", "WA"]}]},
+      "if_fails_status": "OUTSIDE_WISER_PILOT_REGION",
+      "message_template": "State '{state}' is not within the six-state WISeR pilot region.",
+      "rationale_template": "WISeR pilot covers AZ, NJ, OH, OK, TX, WA per CMS-WISER-MODEL.",
+      "source_id": "CMS_WISER_OPERATIONAL_GUIDE_V6",
+      "source_section": "Section 1.1",
+      "claim_id": "CLM-018",
+      "next_action": "Use the standard Medicare workflow for this state.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_SKIN_LCD_ACTIVE_STATE",
+      "kind": "applicability",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "state", "equals": "OH"}]},
+      "if_fails_status": "JF_SKIN_WORKFLOW_CURRENTLY_INACTIVE",
+      "message_template": "The skin-substitute workflow is not currently active in this state under the applicable MAC. State submitted: {state}.",
+      "rationale_template": "L36690 is the CGS J15 / Ohio rule pack. Other active WISeR skin states require their applicable rule pack.",
+      "source_id": "CMS_WISER_OPERATIONAL_GUIDE_V6",
+      "source_section": "State / skin_status mapping",
+      "claim_id": "CLM-023",
+      "next_action": "Follow the standard Medicare workflow for this state.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_WOUND_SCOPE",
+      "kind": "applicability",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "wound_type", "in": ["DFU", "NEUROPATHIC", "VSU", "VLU", "TRAUMA"]}]},
+      "if_fails_status": "OUTSIDE_L36690_WOUND_SCOPE",
+      "message_template": "LCD L36690 covers lower-extremity DFU, neuropathic ulcer, VSU/VLU, and full-thickness trauma ulcers. Wound type submitted: {wound_type}.",
+      "rationale_template": "L36690 §'Coverage Indications' enumerates these three wound classes.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-021",
+      "next_action": "Use the appropriate LCD for this wound type.",
+      "unknown_is_fail": true
+    }
+  ],
+  "evidence_rules": [
+    {
+      "rule_id": "L36690_WOUND_SIZE_MINIMUM",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "wound_bed.wound_size_cm_sq", "gte": 1.0}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L36690 requires skin deficit ≥ 1.0 cm. Documented size is {wound_bed.wound_size_cm_sq} cm.",
+      "rationale_template": "L36690 §'Coverage Indications' requires skin deficit at least 1.0 cm in size.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-038",
+      "next_action": "Confirm wound size measurement before review.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L36690_CIRCULATION_ABI_OR_TOE_PRESSURE",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {
+        "any": [
+          {"field": "vascular_evidence.abi_value", "gte": 0.60},
+          {"field": "vascular_evidence.toe_pressure_mmhg", "gte": 30}
+        ]
+      },
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L36690 requires adequate circulation: ABI ≥ 0.60 or toe pressure ≥ 30 mmHg. Documented ABI: {vascular_evidence.abi_value}; toe pressure: {vascular_evidence.toe_pressure_mmhg}.",
+      "rationale_template": "L36690 §'Coverage Indications' requires evidence of adequate circulation/oxygenation.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-039",
+      "next_action": "Provide ABI or toe-pressure documentation that meets the threshold.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_DFU_CONSERVATIVE_CARE_DURATION",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"any": [{"field": "wound_type", "in": ["DFU", "NEUROPATHIC"]}]},
+      "condition": {
+        "all": [
+          {"field": "standard_care.care_duration_days", "gt": 28},
+          {"field": "standard_care.care_failed_or_unresponsive", "equals": true}
+        ]
+      },
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "DFU coverage under L36690 requires > 4 weeks of documented conservative wound care with failure to respond. Documented duration: {standard_care.care_duration_days} days; failure documented: {standard_care.care_failed_or_unresponsive}.",
+      "rationale_template": "L36690 §'Coverage Indications' requires neuropathic/DFU to have failed > 4 weeks of documented conservative care.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-035",
+      "next_action": "Document additional conservative care or provide existing documentation.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_VSU_DURATION_3MONTHS",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"any": [{"field": "wound_type", "in": ["VSU", "VLU"]}]},
+      "condition": {"all": [{"field": "standard_care.ulcer_duration_days", "gte": 90}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "VSU coverage under L36690 requires ulcer present ≥ 3 months (90 days). Documented duration: {standard_care.ulcer_duration_days} days.",
+      "rationale_template": "L36690 §'Coverage Indications' requires venous stasis ulcer present at least 3 months.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-036",
+      "next_action": "Confirm ulcer-present duration meets the 3-month threshold.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_VSU_UNRESPONSIVE_30DAYS",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"any": [{"field": "wound_type", "in": ["VSU", "VLU"]}]},
+      "condition": {"all": [{"field": "standard_care.unresponsive_care_duration_days", "gte": 30}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "VSU coverage under L36690 requires ≥ 30 days of unresponsive appropriate care. Documented duration: {standard_care.unresponsive_care_duration_days} days.",
+      "rationale_template": "L36690 §'Coverage Indications' requires unresponsive appropriate care for at least 30 days with documented compliance.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-036",
+      "next_action": "Document additional unresponsive-care duration.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_TRAUMA_CONSERVATIVE_CARE_DURATION",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"any": [{"field": "wound_type", "equals": "TRAUMA"}]},
+      "condition": {"all": [{"field": "standard_care.care_duration_days", "gte": 28}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "Trauma/injury ulcer coverage under L36690 requires ≥ 4 weeks of appropriate control of the underlying cause. Documented duration: {standard_care.care_duration_days} days.",
+      "rationale_template": "L36690 §'Coverage Indications' requires full-thickness ulcers from abscess/injury/trauma to have failed appropriate control for at least 4 weeks.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-037",
+      "next_action": "Document additional underlying-cause control before review.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_DFU_OFFLOADING_REQUIRED",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"any": [{"field": "wound_type", "in": ["DFU", "NEUROPATHIC"]}]},
+      "condition": {"all": [{"field": "standard_care.offloading_documented", "equals": true}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L36690 requires documented appropriate non-weight-bearing or offloading for DFU/neuropathic cases. Offloading documented: {standard_care.offloading_documented}.",
+      "rationale_template": "L36690 §'Coverage Indications' lists offloading as a required standard-of-care component for DFU.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-043",
+      "next_action": "Document offloading method (boot, cast, footwear modification) before review.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_VSU_COMPRESSION_REQUIRED",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"any": [{"field": "wound_type", "in": ["VSU", "VLU"]}]},
+      "condition": {"all": [{"field": "standard_care.compression_documented", "equals": true}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L36690 requires documented compression therapy for VSU. Compression documented: {standard_care.compression_documented}.",
+      "rationale_template": "L36690 §'Coverage Indications' lists compression as a required standard-of-care component for VSU.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-044",
+      "next_action": "Document compression method (multilayer dressings, ≥ 20 mmHg stockings, or pneumatic).",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_DFU_DIABETES_DOCUMENTATION",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"any": [{"field": "wound_type", "equals": "DFU"}]},
+      "condition": {
+        "all": [
+          {"field": "standard_care.diabetes_diagnosis_documented", "equals": true},
+          {"field": "standard_care.diabetes_management_documented", "equals": true}
+        ]
+      },
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L36690 requires for DFU cases that the medical record reflect Type 1 or Type 2 diabetes diagnosis and medical management. Diagnosis documented: {standard_care.diabetes_diagnosis_documented}; management documented: {standard_care.diabetes_management_documented}.",
+      "rationale_template": "L36690 §'Coverage Indications' requires both diabetes diagnosis and medical management for DFU eligibility.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Coverage Indications",
+      "claim_id": "CLM-042",
+      "next_action": "Confirm both diabetes diagnosis and management documentation before review.",
+      "unknown_is_fail": true
+    },
+    {
+      "rule_id": "L36690_APPLICATION_CAP",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "episode_history.applications_so_far_in_episode", "lt": 10}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L36690 caps CTP applications at 10 per wound per 12-week period. This case reports {episode_history.applications_so_far_in_episode} applications in the current episode.",
+      "rationale_template": "L36690 §'Limitations' caps applications at 10 per wound per 12-week period of care.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Limitations",
+      "claim_id": "CLM-040",
+      "next_action": "If the episode window has closed, start a new episode. Otherwise discontinue CTP and pursue alternative treatment.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L36690_CONTRAINDICATION_ACTIVE_INFECTION",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"always": true},
+      "condition": {"all": [{"field": "infection_evidence.active_infection", "equals": false}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L36690 contraindicates CTP grafts when active infection is present. Active infection: {infection_evidence.active_infection}.",
+      "rationale_template": "L36690 §'Limitations' lists active infection as a contraindication.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Limitations",
+      "claim_id": "CLM-047",
+      "next_action": "Resolve the active infection before CTP application.",
+      "unknown_is_fail": false
+    },
+    {
+      "rule_id": "L36690_CONTRAINDICATION_UNCONTROLLED_DIABETES",
+      "kind": "evidence",
+      "classification": "OFFICIAL_RULE",
+      "severity": "BLOCKING",
+      "scope": {"any": [{"field": "wound_type", "in": ["DFU", "NEUROPATHIC"]}]},
+      "condition": {"all": [{"field": "contraindications.uncontrolled_diabetes", "equals": false}]},
+      "if_fails_status": "NEEDS_DOCUMENTATION",
+      "message_template": "L36690 contraindicates CTP grafts when diabetes is uncontrolled.",
+      "rationale_template": "L36690 §'Limitations' lists uncontrolled diabetes as a contraindication.",
+      "source_id": "CMS_MCD_L36690",
+      "source_section": "Limitations",
+      "claim_id": "CLM-047",
+      "next_action": "Document diabetes management plan and stability before CTP application.",
+      "unknown_is_fail": false
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "HCPCS_Q_CODE_FORMAT",
+      "kind": "validation",
+      "classification": "INTERNAL_VALIDATION",
+      "severity": "INFORMATIONAL",
+      "scope": {"always": true},
+      "condition": {"for_each": "product_codes", "matches": "^[A-Z][0-9]{4}$"},
+      "if_fails_status": null,
+      "message_template": "One or more product codes do not match the HCPCS Level II format (letter + 4 digits).",
+      "rationale_template": "Format check; not a coverage rule.",
+      "source_id": "INTERNAL_FORMAT_CHECK",
+      "next_action": "Review the submitted product codes."
+    }
+  ],
+  "scoring": {
+    "blocking_to_status": {
+      "any": "NEEDS_DOCUMENTATION"
+    },
+    "score_basis": "ENTERED_EVIDENCE_COMPLETENESS",
+    "weights": {
+      "applicability": 0,
+      "evidence_official_rule": 10,
+      "evidence_workflow_signal": 3,
+      "validation": 1
+    }
+  },
+  "changelog": [
+    {
+      "rule_id": "*",
+      "kind": "ADDED",
+      "version_introduced": "0.1.0",
+      "note": "Initial L36690 slice encoding from CLM-017 through CLM-047 (T-007)."
+    }
+  ]
+}

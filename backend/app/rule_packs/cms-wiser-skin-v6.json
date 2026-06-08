@@ -1,0 +1,181 @@
+{
+  "id": "cms-wiser-skin-v6",
+  "label": "CMS WISeR skin-substitute readiness prototype",
+  "version": "0.1.0",
+  "status": "PROTOTYPE_REQUIRES_CLINICAL_AND_COMPLIANCE_REVIEW",
+  "guide_version": "6.0",
+  "guide_updated": "2026-04-24",
+  "effective_date": "2026-01-15",
+  "sources": {
+    "CMS_WISER_OPERATIONAL_GUIDE_V6": {
+      "kind": "OFFICIAL_CMS_GUIDANCE",
+      "title": "CMS WISeR Provider and Supplier Operational Guide v6.0",
+      "url": "https://www.cms.gov/priorities/innovation/files/wiser-provider-supplier-guide.pdf",
+      "note": "Used for WISeR routing guidance. Confirm the latest CMS version before a pilot."
+    },
+    "PILOT_CLINICAL_WORKFLOW": {
+      "kind": "PILOT_WORKFLOW_SIGNAL",
+      "title": "Pilot wound-care documentation readiness checklist",
+      "note": "Clinical workflow signal gathered during discovery. It is not represented as a CMS coverage rule."
+    },
+    "INTERNAL_FORMAT_CHECK": {
+      "kind": "INTERNAL_VALIDATION",
+      "title": "Prototype code-format validation",
+      "note": "Format and presence checks only. Complete code-level CMS and MAC logic is not yet encoded."
+    }
+  },
+  "states": {
+    "TX": {
+      "name": "Texas",
+      "jurisdiction": "JH",
+      "mac": "Novitas",
+      "participant": "Cohere Health",
+      "skin_status": "ACTIVE"
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "jurisdiction": "JH",
+      "mac": "Novitas",
+      "participant": "Humata Health",
+      "skin_status": "ACTIVE"
+    },
+    "NJ": {
+      "name": "New Jersey",
+      "jurisdiction": "JL",
+      "mac": "Novitas",
+      "participant": "Genzeon",
+      "skin_status": "ACTIVE"
+    },
+    "OH": {
+      "name": "Ohio",
+      "jurisdiction": "J15",
+      "mac": "CGS",
+      "participant": "Innovaccer",
+      "skin_status": "ACTIVE"
+    },
+    "AZ": {
+      "name": "Arizona",
+      "jurisdiction": "JF",
+      "mac": "Noridian",
+      "participant": "Zyter",
+      "skin_status": "LCD_WITHDRAWN"
+    },
+    "WA": {
+      "name": "Washington",
+      "jurisdiction": "JF",
+      "mac": "Noridian",
+      "participant": "Virtix Health",
+      "skin_status": "LCD_WITHDRAWN"
+    }
+  },
+  "documentation_checks": [
+    {
+      "id": "BASELINE_MEASUREMENT_PRESENT",
+      "field": "baseline_measurement_present",
+      "label": "Baseline wound measurement",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "The reviewer should be able to establish the starting condition of the wound."
+    },
+    {
+      "id": "SERIAL_MEASUREMENTS_PRESENT",
+      "field": "serial_measurements_present",
+      "label": "Serial wound progression measurements",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "The reviewer should be able to understand progression across visits."
+    },
+    {
+      "id": "PHOTOS_PRESENT",
+      "field": "photos_present",
+      "label": "Photographic documentation",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "Clinical discovery identified photographs as a commonly missing evidence type."
+    },
+    {
+      "id": "STANDARD_CARE_FAILURE_PRESENT",
+      "field": "standard_care_failure_present",
+      "label": "Standard-of-care failure documentation",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "The reviewer should be able to understand prior care and why advanced therapy is being considered."
+    },
+    {
+      "id": "VASCULAR_ASSESSMENT_PRESENT",
+      "field": "vascular_assessment_present",
+      "label": "Vascular assessment documentation",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "Clinical discovery identified vascular assessment evidence as a recurring documentation gap."
+    },
+    {
+      "id": "INFECTION_ASSESSMENT_PRESENT",
+      "field": "infection_assessment_present",
+      "label": "Infection assessment",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "The reviewer should be able to understand infection status before advanced therapy review."
+    },
+    {
+      "id": "INFECTION_TREATMENT_HISTORY_PRESENT",
+      "field": "infection_treatment_history_present",
+      "label": "Infection treatment history",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "Clinical discovery identified treatment history as useful supporting evidence."
+    },
+    {
+      "id": "PRIOR_TREATMENTS_PRESENT",
+      "field": "prior_treatments_present",
+      "label": "Prior treatments",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "The reviewer should be able to understand the prior wound-care pathway."
+    },
+    {
+      "id": "PRODUCT_RATIONALE_PRESENT",
+      "field": "product_rationale_present",
+      "label": "Product rationale",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "The reviewer should be able to understand the selected product and intended plan."
+    },
+    {
+      "id": "CARE_PLAN_PRESENT",
+      "field": "care_plan_present",
+      "label": "Continued care plan",
+      "severity": "REVIEW",
+      "wound_types": ["ALL"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "The reviewer should be able to understand the planned wound-care pathway."
+    },
+    {
+      "id": "DFU_OFFLOADING_PRESENT",
+      "field": "offloading_present",
+      "label": "DFU offloading documentation",
+      "severity": "REVIEW",
+      "wound_types": ["DFU"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "Clinical discovery identified offloading as a recurring DFU documentation gap."
+    },
+    {
+      "id": "VLU_COMPRESSION_PRESENT",
+      "field": "compression_present",
+      "label": "VLU compression documentation",
+      "severity": "REVIEW",
+      "wound_types": ["VLU"],
+      "source_id": "PILOT_CLINICAL_WORKFLOW",
+      "rationale": "Compression documentation is a wound-type-specific readiness signal for VLU workflows."
+    }
+  ]
+}

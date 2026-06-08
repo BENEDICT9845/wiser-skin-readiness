@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+*.log
+node_modules/
+.DS_Store
+
+# Local-only project material. Keep these files on the machine, not in Git.
+.internal/
+AGENTS.md
+BACKEND_BLUEPRINT.md
+OUTREACH_KIT.md
+PRODUCT_PLAN.md
+outreach/
+prototype-*.png
+docs/00-charter/
+docs/01-domain/
+docs/02-research/
+docs/03-requirements/
+docs/04-architecture/
+docs/05-delivery/

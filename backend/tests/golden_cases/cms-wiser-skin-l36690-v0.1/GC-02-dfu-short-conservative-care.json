@@ -1,0 +1,42 @@
+{
+  "golden_case_id": "GC-02",
+  "title": "DFU, insufficient conservative care",
+  "summary": "Same patient as GC-01 but with only 14 days of conservative care.",
+  "rule_pack_id": "cms-wiser-skin-l36690-v0.1",
+  "review_status": "draft",
+  "source_claim_ids": ["CLM-035"],
+  "match_policy": "strict_top_level_subset_findings",
+  "request": {
+    "case_reference": "GC-02",
+    "state": "OH",
+    "coverage_type": "ORIGINAL_MEDICARE",
+    "service_date": "2026-06-01",
+    "wound_type": "DFU",
+    "procedure_codes": ["15271"],
+    "product_codes": ["Q4101"],
+    "diagnosis_codes": ["E11.621", "L97.522"],
+    "wound_bed": {"wound_size_cm_sq": 2.4, "tendon_muscle_joint_bone_or_sinus_tract": false},
+    "vascular_evidence": {"abi_value": 0.85, "assessment_documented": true},
+    "infection_evidence": {"active_infection": false, "osteomyelitis_present": false},
+    "contraindications": {"uncontrolled_diabetes": false},
+    "standard_care": {
+      "care_duration_days": 14,
+      "care_failed_or_unresponsive": true,
+      "offloading_documented": true,
+      "diabetes_diagnosis_documented": true,
+      "diabetes_management_documented": true
+    },
+    "episode_history": {"applications_so_far_in_episode": 0}
+  },
+  "expected": {
+    "applicability": {"status": "LIKELY_ACTIVE_WISER_WORKFLOW"},
+    "readiness_status": "NEEDS_DOCUMENTATION",
+    "findings_must_include": [
+      {
+        "rule_id": "L36690_DFU_CONSERVATIVE_CARE_DURATION",
+        "severity": "BLOCKING",
+        "classification": "OFFICIAL_RULE"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "case_reference": "CASE-DEMO-001",
+  "state": "TX",
+  "coverage_type": "ORIGINAL_MEDICARE",
+  "service_date": "2026-05-12",
+  "wound_type": "DFU",
+  "procedure_codes": ["15271"],
+  "product_codes": ["Q4101"],
+  "diagnosis_codes": ["E11.621", "L97.522"],
+  "documentation": {
+    "baseline_measurement_present": true,
+    "serial_measurements_present": false,
+    "photos_present": true,
+    "standard_care_failure_present": true,
+    "vascular_assessment_present": false,
+    "infection_assessment_present": true,
+    "infection_treatment_history_present": true,
+    "prior_treatments_present": true,
+    "product_rationale_present": false,
+    "care_plan_present": true,
+    "offloading_present": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "golden_case_id": "TX-DFU-02",
+  "title": "Texas service before WISeR service window",
+  "review_status": "draft",
+  "rule_pack_id": "cms-wiser-skin-l35041-tx-dfu-v0.1",
+  "source_claim_ids": ["CLM-049"],
+  "match_policy": "applicability_only",
+  "request": {
+    "case_reference": "TX-DFU-02",
+    "state": "TX",
+    "coverage_type": "ORIGINAL_MEDICARE",
+    "service_date": "2026-01-10",
+    "wound_type": "DFU"
+  },
+  "expected": {
+    "applicability": {"status": "BEFORE_WISER_SERVICE_WINDOW", "state": "TX"},
+    "readiness_status": "BEFORE_WISER_SERVICE_WINDOW"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "golden_case_id": "GC-14",
+  "title": "Medicare Advantage, not in scope",
+  "summary": "DFU in Ohio but the patient has Medicare Advantage.",
+  "rule_pack_id": "cms-wiser-skin-l36690-v0.1",
+  "review_status": "draft",
+  "source_claim_ids": ["CLM-019"],
+  "match_policy": "applicability_only",
+  "request": {
+    "case_reference": "GC-14",
+    "state": "OH",
+    "coverage_type": "MEDICARE_ADVANTAGE",
+    "service_date": "2026-06-01",
+    "wound_type": "DFU",
+    "procedure_codes": ["15271"],
+    "product_codes": ["Q4101"],
+    "diagnosis_codes": ["E11.621", "L97.522"]
+  },
+  "expected": {
+    "applicability": {
+      "status": "OUTSIDE_WISER_COVERAGE_SCOPE"
+    },
+    "readiness_status": "OUTSIDE_WISER_COVERAGE_SCOPE",
+    "findings_must_include": []
+  }
+}

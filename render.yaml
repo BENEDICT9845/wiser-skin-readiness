@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: wiser-skin-readiness-pilot
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /ready
+    autoDeployTrigger: commit
+    envVars:
+      - key: WISER_API_KEY
+        sync: false

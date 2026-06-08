@@ -1,0 +1,21 @@
+{
+  "golden_case_id": "TX-DFU-12",
+  "title": "Texas VLU outside DFU first slice",
+  "review_status": "draft",
+  "rule_pack_id": "cms-wiser-skin-l35041-tx-dfu-v0.1",
+  "source_claim_ids": ["CLM-054"],
+  "match_policy": "applicability_only",
+  "request": {
+    "case_reference": "TX-DFU-12",
+    "state": "TX",
+    "coverage_type": "ORIGINAL_MEDICARE",
+    "service_date": "2026-06-01",
+    "wound_type": "VLU"
+    ,"review_stage": "INITIAL_PRE_AUTH"
+    ,"site_of_service": "OFFICE"
+  },
+  "expected": {
+    "applicability": {"status": "REQUIRES_HUMAN_REVIEW", "state": "TX"},
+    "readiness_status": "REQUIRES_HUMAN_REVIEW"
+  }
+}
